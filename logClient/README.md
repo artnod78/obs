@@ -11,4 +11,4 @@ Le chemin doit finir par un slash ( **/** )
 `$dir = 'D:/SteamLibrary/steamapps/common/7 Days To Die/7DaysToDie_Data/';`  
 
 ## Utilisation
-http://localhost/kill.html
+[http://localhost/kill.html](http://localhost/kill.html)
