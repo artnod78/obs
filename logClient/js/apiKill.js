@@ -10,7 +10,7 @@ function StartKillModule () {
     var updateEvent = function() {
         // on se place à la fin des log
         if(nbLine == 0){
-			$.getJSON( "./log.php?firstLine=" + (initNbLine)).done(function(data){
+			$.getJSON( "api/getlog.php?firstLine=" + (initNbLine)).done(function(data){
 				if (data.entries.length > 0) {
 					initNbLine = data.lastLine;
                 }
@@ -31,7 +31,7 @@ function StartKillModule () {
 			timeout = window.setTimeout(updateEvent, 500);
 		}
         else{
-            $.getJSON("./log.php?firstLine=" + (nbLine))
+            $.getJSON("api/getlog.php?firstLine=" + (nbLine))
             .done(function(data) {
 				if(data.firstLine == data.lastLine){
 					if(data.maxLog == data.firstLine){
