@@ -5,7 +5,7 @@ Utilise l'API et le serveur Web des **Alloc fixes**.
 Ne fonctionne pas encore quand un joueur se fait tuer par un autre joueur.  
 
 ## Installation
-Copier le dossier **obs** dans le repertoire du site web:  
+Copier le dossier **apiServer/obs** dans le repertoire du site web:  
 `gamefolder\Mods\Allocs_WebAndMapRendering\webserver\`  
 
 ## Configuration
