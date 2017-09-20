@@ -1,5 +1,6 @@
 # PopUp lorsqu'un joueur mort
 Nécessite un serveur Web avec PHP fonctionnel sur le même PC.  
+Lis le dernier fichier d'évenements (log) du jeu
 Ne fonctionne pas encore quand un joueur se fait tuer par un autre joueur.  
 
 ## Installation
