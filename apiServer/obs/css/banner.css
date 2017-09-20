@@ -1,0 +1,58 @@
+@font-face {
+	font-family: "Agency FB";
+	src: url("../fonts/agency_fb.ttf") format("truetype");
+}
+
+#bannerContainer {
+    position: absolute;
+    top: 9px;
+    left: 2px;
+    overflow: hidden;
+	
+	border-style: solid;
+	border-color: rgba(0,0,0, 0.5);
+	border-radius: 10px 10px 10px 10px;
+	
+    background: rgba(32,32,32, 0.5);
+	
+	font-family: "Agency FB";
+    font-size: 28px;
+	color: rgba(255,255,255, 0.5);
+	text-transform: uppercase;
+}
+
+#bannerTable {
+    height: 30px;
+    position: relative;
+    overflow: hidden;
+}
+			
+#blood_moon {
+    width: 250px;
+	left: 2px;
+    position: relative;
+    overflow: hidden;
+    text-align: left;
+}
+#nb_players {
+    width: 120px;
+    position: relative;
+    overflow: hidden;
+    text-align: right;
+}
+#nb_hostiles {
+    width: 120px;
+    position: relative;
+    overflow: hidden;
+    text-align: right;
+}
+#nb_animals {
+    width: 120px;
+	right: 5px;
+    position: relative;
+    overflow: hidden;
+    text-align: right;
+}
+#colortext{
+    color: rgba(182,166,123,0.5);
+}
