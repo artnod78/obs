@@ -4,7 +4,7 @@ Lis le dernier fichier d'évenements (log) du jeu.
 Ne fonctionne pas encore quand un joueur se fait tuer par un autre joueur.  
 
 ## Installation
-Copier les fichiers et dossiers dans le repertoire de votre site web.  
+Copier le contenu de **logClient** dans le repertoire de votre site web.  
 Sauf READMME.md  
 
 ## Configuration
