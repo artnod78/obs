@@ -1,5 +1,5 @@
 # PopUp lorsqu'un joueur mort
-Nécessite un serveur Web avec PHP fonctionnel sur le même PC.  
+Nécessite un serveur Web avec PHP fonctionnel sur le même PC.  [Tuto installer un serveur web](https://notes-de-cours.com/web/blogue/49/configurer-php-et-nginx-sous-windows)  
 Lis le dernier fichier d'évenements (log) du jeu.  
 Ne fonctionne pas encore quand un joueur se fait tuer par un autre joueur.  
 
