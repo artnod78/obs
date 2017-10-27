@@ -110,4 +110,38 @@ function ParseLog($logs) {
 	return array('game' => $game, 'hardware' => $hardware, 'log' => $log, 'other' => $other, 'system' => $system);
 }
 
+
+
+function sqlQuery(){
+	$mysqli = new mysqli("localhost", "sdtd", "sdtd", "sdtd");
+	if ($mysqli->connect_errno) {
+		return array('error' => true, 'message' => "Echec lors de la connexion à MySQL : (" . $mysqli->connect_errno . ") " . $mysqli->connect_error);
+	}
+	else{
+		$entries = array();
+		$res = $mysqli->query("SELECT * FROM local");
+		$res->data_seek(0);
+		while ($row = $res->fetch_assoc()) {
+			$entries[] = array('world' => $row["world"], 'death' => $row["death"]);
+		}
+		if(count($entries) == 0){
+			return array('entries' => $entries, 'error' => true, 'message' => "no entries");
+		}
+		else{
+			return array('entries' => $entries, 'error' => false);
+		}
+	}
+}
+
+function sqlInsert($world, $death){
+	$mysqli = new mysqli("localhost", "sdtd", "sdtd", "sdtd");
+	if ($mysqli->connect_errno) {
+		return array('error' => true, 'message' => "Echec lors de la connexion à MySQL : (" . $mysqli->connect_errno . ") " . $mysqli->connect_error);
+	}
+	else{
+		$res = $mysqli->query("INSERT INTO local (world, death) VALUES ('".$world."', ".$death.") ON DUPLICATE KEY UPDATE death=".$death);
+		return array('error' => false);
+	}
+}
+
 ?>

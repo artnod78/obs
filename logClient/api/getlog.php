@@ -57,9 +57,9 @@ if( !$fileName['error'] ) { // if file found
 		}
 		else {
 			$json['entries'] = array();
-			$maxLog = count($log);
-			$json['maxLog'] = $maxLog;
 		}
+		$maxLog = count($log);
+		$json['maxLog'] = $maxLog;
 	}
 	else {
 		$json['error'] = $rawLogs['error'];
