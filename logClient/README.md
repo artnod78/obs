@@ -9,7 +9,6 @@ L'overlay ne fait qu'incrementer une valeur lorsqu'un joueur mort.
 A l'heure actuelle, il est impossible de savoir le nombre de mort qu'il y a eu avant que l'overlay soit lancé.  
 Ainsi que le nombre de mort lorsque l'overlay n'est pas lancé.  
 
-*****
 ## Installation
 Dans cette partie nous verrons les différentes étapes afin de pourvoir utiliser l'overlay.  
 
