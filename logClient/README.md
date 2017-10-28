@@ -61,7 +61,7 @@ Et **Exécuter**.
 ## Utilisation
 Dans OBS, créer une BrowserSource avec l'url suivante:  
 
-`http://sdtd/kill.html`
+`http://sdtd/death.html`
 
 Cependant la base de donnée est encore vide.  
 Pour saisir le nombre de mort pour un monde existant:
