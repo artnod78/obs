@@ -1,13 +1,23 @@
 # Death Count
 Il s'agit d'un petit overlay qui affiche le nombre de morts.  
 * Scan le fichier de log
-* Incrémente une valeur en base de donnée lorsqu'il détecte la mort d'un joueur
-* Chaque monde démarré à son nombre de mort.
+  * Détecte le nom du joueur
+  * Détecte le dernier monde démarré
+  * Détecte quand on rejoins un monde
+  * Détecte la mort du joueur
+  * Détecte quand on quitte un monde
+* Chaque monde a son compteur de mort
+* Sauvegarde en base de donées le compteur de mort, pour chaque monde, lorsque le joueur mort
 
-Il est impossible de savoir via les log combien de fois est mort un joueur. Mais la mort d'un joueur est détectable.  
-L'overlay ne fait qu'incrementer une valeur lorsqu'un joueur mort.  
-A l'heure actuelle, il est impossible de savoir le nombre de mort qu'il y a eu avant que l'overlay soit lancé.  
-Ainsi que le nombre de mort lorsque l'overlay n'est pas lancé.  
+Si vous êtes mort lorsque l'overlay n'est pas lancé. La base de données ne sera pas à jour.  
+Il faudra donc la mettre à jour manuellement en utilisant cette url:  
+
+[http://sdtd/api/setdeath.php?world=**toto**&death=**99**](http://sdtd/api/setdeath.php?world=&death=).  
+
+En prenant soin de modifier **toto** par le nom du monde et **99** par le nombre de mort.  
+
+Pour obtenir le nom du monde, une fois le monde rejoins, utliser l'url http://sdtd/api/getworld.php.  
+Pour obtenir le nombre, une fois le monde rejoins, allez dans le menu **Personnage**.  
 
 ## Installation
 Dans cette partie nous verrons les différentes étapes afin de pourvoir utiliser l'overlay.  
@@ -62,17 +72,22 @@ Et **Exécuter**.
 ## Utilisation
 Dans OBS, créer une BrowserSource avec l'url suivante:  
 
-http://sdtd/death.html
+http://sdtd/death.html  
 
-Cependant la base de donnée est encore vide.  
-Pour saisir le nombre de mort pour un monde existant:
-* Lancer le jeu, démmaré la partie et récuperer le nombre de fois que vous êtes mort (Menu Personnage).
-* Utiliser votre navigateur web et aller sur http://sdtd/api/getworld.php pour recuperer le nom du monde.  
-* Utiliser votre navigateur web et aller sur [http://sdtd/api/setdeath.php?world=**toto**&death=**99**](http://sdtd/api/setdeath.php?world=&death=) en prenant soin de modifier **toto** par le nom du monde et **99** par le nombre de mort.
+Si vous êtes mort lorsque l'overlay n'est pas lancé. La base de données ne sera pas à jour.  
+Il faudra donc la mettre à jour manuellement en utilisant cette url:  
+
+[http://sdtd/api/setdeath.php?world=**toto**&death=**99**](http://sdtd/api/setdeath.php?world=&death=).  
+
+En prenant soin de modifier **toto** par le nom du monde et **99** par le nombre de mort.  
+
+Pour obtenir le nom du monde, une fois le monde rejoins, utliser l'url http://sdtd/api/getworld.php.  
+Pour obtenir le nombre, une fois le monde rejoins, allez dans le menu **Personnage**.  
 
 *****
 *****
 *****
+
 # Troll Kill
 Affiche un Popup quand un joueur mort.
 
