@@ -6,7 +6,7 @@ if( !isset($_GET["world"])) {
 	$json = array('error' => true, 'message' => "need world param");
 }
 else{
-	$query = sqlQuery();
+	$query = sqlQuery($sqlhost, $sqluser, $sqlpass, $sqldb, $sqltable);
 	if( !$query['error'] ) {
 		$entries = $query['entries'];
 		$wordlFound = false;

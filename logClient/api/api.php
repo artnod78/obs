@@ -1,5 +1,10 @@
 <?php
 $dir = 'D:/SteamLibrary/steamapps/common/7 Days To Die/7DaysToDie_Data/';
+$sqlhost = '127.0.0.1';
+$sqluser = 'sdtdUser';
+$sqlpass = 'sdtdPass';
+$sqldb = 'sdtd';
+$sqltable = 'deathcount';
 
 function GetFileName($path) {
 	if(is_dir($path)) {
@@ -112,14 +117,14 @@ function ParseLog($logs) {
 
 
 
-function sqlQuery(){
-	$mysqli = new mysqli("localhost", "sdtd", "sdtd", "sdtd");
+function sqlQuery($sqlhost, $sqluser, $sqlpass, $sqldb, $sqltable){
+	$mysqli = new mysqli($sqlhost, $sqluser, $sqlpass, $sqldb);
 	if ($mysqli->connect_errno) {
 		return array('error' => true, 'message' => "Echec lors de la connexion à MySQL : (" . $mysqli->connect_errno . ") " . $mysqli->connect_error);
 	}
 	else{
 		$entries = array();
-		$res = $mysqli->query("SELECT * FROM local");
+		$res = $mysqli->query("SELECT * FROM ".$sqltable);
 		$res->data_seek(0);
 		while ($row = $res->fetch_assoc()) {
 			$entries[] = array('world' => $row["world"], 'death' => $row["death"]);
@@ -134,12 +139,12 @@ function sqlQuery(){
 }
 
 function sqlInsert($world, $death){
-	$mysqli = new mysqli("localhost", "sdtd", "sdtd", "sdtd");
+	$mysqli = new mysqli($sqlHost, $sqlUser, $sqlPass, $sqlDb);
 	if ($mysqli->connect_errno) {
 		return array('error' => true, 'message' => "Echec lors de la connexion à MySQL : (" . $mysqli->connect_errno . ") " . $mysqli->connect_error);
 	}
 	else{
-		$res = $mysqli->query("INSERT INTO local (world, death) VALUES ('".$world."', ".$death.") ON DUPLICATE KEY UPDATE death=".$death);
+		$res = $mysqli->query("INSERT INTO ".$sqlTable." (world, death) VALUES ('".$world."', ".$death.") ON DUPLICATE KEY UPDATE death=".$death);
 		return array('error' => false);
 	}
 }

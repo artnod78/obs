@@ -1,127 +1,238 @@
-var nbLine = 0;
-var world;
+var player = null;
+var world = null;
+var nbDeath = null;
+
+var nbLine = null;
+
+var firstRun = true;
+var lastNbDeath = null;
+
+function getPlayer(){
+	var mydata = [];
+	$.ajax({
+		url: 'api/getplayer.php',
+		async: false,
+		dataType: 'json',
+		success: function (jsonData) {
+			mydata = jsonData;
+		}
+	});
+	return mydata;
+}
+
+function getWorld(){
+	var mydata = [];
+	$.ajax({
+		url: 'api/getworld.php',
+		async: false,
+		dataType: 'json',
+		success: function (jsonData) {
+			mydata = jsonData;
+		}
+	});
+	return mydata;
+}
+
+function getDeath(){
+	var mydata = [];
+	$.ajax({
+		url: 'api/getdeath.php?world=' + world,
+		async: false,
+		dataType: 'json',
+		success: function (jsonData) {
+			mydata = jsonData;
+		}
+	});
+	return mydata;
+}
+
+function getLastLine(){
+	var mydata = [];
+	$.ajax({
+		url: 'api/getlog.php',
+		async: false,
+		dataType: 'json',
+		success: function (jsonData) {
+			mydata = jsonData.maxLog;
+		}
+	});
+	return mydata;
+}
+
+function getLog(){
+	var mydata = [];
+	$.ajax({
+		url: 'api/getlog.php?firstLine=' + nbLine,
+		async: false,
+		dataType: 'json',
+		success: function (jsonData) {
+			mydata = jsonData;
+		}
+	});
+	return mydata;
+}
+
+function setDeath(){
+	$.ajax({
+		url: 'api/setdeath.php?world=' + world + "&death=" + nbDeath ,
+		async: false,
+		dataType: 'json',
+		success: function () {
+			console.log("Update BDD\t" + world + " - " + nbDeath);
+		}
+	});
+	
+}
+
+function getFirstRun(){
+	
+	// on recupere le nom du joueur
+	var getplayer = getPlayer();
+	if(getplayer.error == false){
+		player = getplayer.player;
+		console.log("First Run\tPlayer\t\t" + player);
+	}
+	else{
+		console.log("First Run\tPlayer\t\tNot Found");
+	}
+	
+	// on recupere le nom du dernier monde chargé
+	var getworld = getWorld();
+	if(getworld.error == false){
+		world = getworld.world;
+		console.log("First Run\tWorld\t\t" + world);
+		
+		// on recupere le nombre de mort
+		var getdeath = getDeath();
+		if(getdeath.error == false){
+			nbDeath = getdeath.death;
+			console.log("First Run\tDeath\t\t" + nbDeath);
+		}
+		else{
+			console.log("First Run\tDeath\t\tNot Found");
+			nbDeath = 0;
+		}
+	}
+	else{
+		console.log("First Run\tWorld\t\tNot Found");
+		console.log("First Run\tDeath\t\tNot Found");
+	}
+	
+	// on recupere le numero de la dernière ligne
+	nbLine = getLastLine();
+	console.log("First Run\tLast Line\t" + nbLine);
+}
+
+function updatePlayer(){
+	var getplayer = getPlayer();
+	if(getplayer.error == false){
+		player = getplayer.player;
+		console.log("Update\t\tPlayer\t\t" + player);
+	}
+	else{
+		console.log("Update\t\tPlayer\t\tNot Found");
+	}
+}
+
+function updateWorld(){
+	var getworld = getWorld();
+	if(getworld.error == false){
+		world = getworld.world;
+		console.log("Update\t\tWorld\t\t" + world);
+	}
+	else{
+		console.log("Update\t\tWorld\t\tNot Found");
+	}
+}
+
+function updateDeath(){
+	var getdeath = getDeath();
+	if(getdeath.error == false){
+		nbDeath = getdeath.death;
+		console.log("Update\t\tDeath\t\t" + nbDeath);
+	}
+	else{
+		console.log("Update\t\tDeath\t\tNot Found");
+	}
+}
+
+
+
 function StartKillModule () {
     var timeout = null;
 
     var updateEvent = function() {
-		if(nbLine == 0){// on recupere maxLog
-			console.log("Get Line\tInit");
-			$.getJSON( "api/getlog.php")
-				.done(function(data){
-					nbLine = data.maxLog;
-					console.log("Get Line\tSuccess\t\t" + nbLine);
-				})
-				.fail(function(jqxhr, textStatus, error) {
-					console.log("Get Line\tError\t\t"+error);
-				});
-			timeout = window.setTimeout(updateEvent, 2000);
+		// on met a jour l'overlay
+		if(lastNbDeath != nbDeath){
+			console.log("Update\t\tOverlay\t\t" + nbDeath);	
+			if(nbDeath != null){
+				$("#nb_death").html ("Death Count: <span id=\"colortext\">" + nbDeath + " </span>");
+			}
+			else{
+				$("#nb_death").html ("Death Count: <span id=\"colortext\">0 </span>");
+			}
+			lastNbDeath = nbDeath;
 		}
-		else{// Parse log to find death
-			
-			
-			$.getJSON("api/getlog.php?firstLine=" + (nbLine))
-				.done(function(data) {
-					if (data.firstLine == data.lastLine){
-						if(data.maxLog < data.lastLine){// New log file
-							console.log("Get Log\t\tSuccess\t\tNew log File");
-							nbLine = 0;
-						}
-						else {// No new log
-							console.log("Get Log\t\tSuccess\t\tNo new log\t\t" + (nbLine));
-						}
-					}
-					else{// New log
-						console.log("Get Log\t\tSuccess\t\tNew log\t\t\t" + (data.maxLog));
-						// on met a jour le numero de la derniere ligne lu
-						nbLine = data.maxLog;
-						
-						// Pour chaque nouvelle ligne de log
-						for (var i = 0; i < data.entries.length; i++) {
-							var logLine = data.entries[i].msg;
-							
-							// si un joueur est mort
-							if(logLine.match("GMSG: Player \'(.*)\' died")){
-								
-								// on recupere le nom du monde
-								$.getJSON( "api/getworld.php")
-									.done(function(data){
-										if( data.error == false ){
-											console.log("Get World\tSuccess\t\t"+data.world);
-											var world = data.world;
-											
-											// on recuepre le nombre de mort sur se monde
-											$.getJSON( "api/getdeath.php?world=" + world)
-												.done(function(data){
-													console.log("Get Death\tSuccess\t\t"+data.death);
-													var nbDeath = data.death;
-													
-													// on met a jour le html
-													$("#nb_death").html ("Death Count: <span id=\"colortext\">" + (nbDeath+1) + " </span>");
-													
-													// on met a jour le site web
-													$.get( "api/setdeath.php?world=" + world + "&death="+(nbDeath+1))
-														.done(function(){
-															console.log("Set Death\tSuccess\t\t"+(nbDeath+1));
-														})
-														.fail(function(jqxhr, textStatus, error) {
-															console.log("Set Death\tError\t\t"+error);
-														});
-												})
-												.fail(function(jqxhr, textStatus, error) {
-													console.log("Get Death\t\tError\t\t"+error);
-												});
-										}
-										else{
-											console.log("Get World\t\tError\t\t"+data.message);
-										}
-									})
-									.fail(function(jqxhr, textStatus, error) {
-										console.log("Get World\t\tError\t\t"+error);
-									});
-							}
-							
-							// si on change de monde
-							else if(logLine.match("createWorld: ")){
-								$.getJSON( "api/getworld.php")
-									.done(function(data){
-										if( data.error == false ){
-											console.log("Get World\tSuccess\t\t"+data.world);
-											var world = data.world;
-											
-											// on recuepre le nombre de mort sur se monde
-											$.getJSON( "api/getdeath.php?world=" + world)
-												.done(function(data){
-													console.log("Get Death\tSuccess\t\t"+data.death);
-													
-													// on met a jour le html
-													$("#nb_death").html ("Death Count: <span id=\"colortext\">" + (data.death) + " </span>");
-												})
-												.fail(function(jqxhr, textStatus, error) {
-													console.log("Get Death\t\tError\t\t"+error);
-												});
-										}
-										else{
-											console.log("Get World\t\tError\t\t"+data.message);
-										}
-									})
-									.fail(function(jqxhr, textStatus, error) {
-										console.log("Get World\t\tError\t\t"+error);
-									});
-								
-							}
-							// si on quitte le monde
-							else if(logLine.match("World.Unload")){
-								// reset overlay
-								$("#nb_death").html ("Death Count: <span id=\"colortext\">0 </span>");
-							}
-						}	
-					}
-				})
-				.fail(function(jqxhr, textStatus, error) {
-					console.log("Get Log\t\tError\t\t"+error);
-				});
-			timeout = window.setTimeout(updateEvent, 2000);
+		
+		// initialisation au premier lancement
+		if(firstRun == true){
+			getFirstRun();
+			firstRun = false;
 		}
+		
+		var logs = getLog();
+		if (logs.firstLine == logs.lastLine){
+			if(logs.maxLog < logs.lastLine){// New log file
+				console.log("Get Log\t\tSuccess\t\tNew log File");
+				firstRun = true;
+			}
+			else {// No new log
+				console.log("Get Log\t\tSuccess\t\tNo new log\t\t" + (nbLine));
+			}
+			
+		}
+		else{// New log
+			console.log("Get Log\t\tSuccess\t\tNew log\t\t\t" + (logs.maxLog));
+			
+			// on met a jour le numero de la derniere ligne lu
+			nbLine = logs.lastLine;
+			
+			// Pour chaque nouvelle ligne de log
+			for (var i = 0; i < logs.entries.length; i++) {
+				var logLine = logs.entries[i].msg;
+				
+				// si un joueur est mort
+				if(logLine.match("GMSG: Player \'" + player + "\' died")){	
+					console.log("Log\t\t\tPlayer\t\tDied");
+					// on increment le nombre de mort
+					nbDeath++;
+					// on met à jour la bdd
+					setDeath();
+				}
+				
+				// si on démarre de monde
+				if(logLine.match("createWorld: ")){
+					// on met a jour le nom du joueur
+					updatePlayer();
+					// on met a jour le nom du monde
+					updateWorld();
+					// on met a jour le nombre de mort
+					updateDeath();
+				}
+				
+				// si on quitte le monde
+				if(logLine.match("World.Unload")){
+					console.log("Unload\t\tWorld\t\t" + world);
+					// reset world
+					world = null;
+					// reset nbDeath
+					nbDeath = null;
+					
+				}
+			}	
+		}		
+		timeout = window.setTimeout(updateEvent, 2000);
+		
 	};
 	updateEvent ();
 }
