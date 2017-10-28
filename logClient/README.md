@@ -7,7 +7,7 @@ Il s'agit d'un petit overlay qui affiche le nombre de morts.
   * Détecte la mort du joueur
   * Détecte quand on quitte un monde
 * Chaque monde a son compteur de mort
-* Sauvegarde en base de donées le compteur de mort, pour chaque monde, lorsque le joueur mort
+* Sauvegarde en base de donées le compteur de mort, pour le monde en cours, lorsque le joueur mort
 
 Si vous êtes mort lorsque l'overlay n'est pas lancé. La base de données ne sera pas à jour.  
 Il faudra donc la mettre à jour manuellement en utilisant cette url:  
