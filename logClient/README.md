@@ -76,21 +76,3 @@ Pour cela:
 * Utiliser l'url suivante en prenant soin de modifier **toto** par le nom du monde et **99** par le nombre de mort.
 
 [http://sdtd/api/setdeath.php?world=**toto**&death=**99**](http://sdtd/api/setdeath.php?world=&death=).  
-
-*****
-*****
-*****
-
-# Troll Kill
-Affiche un Popup quand un joueur mort.
-
-## Installation
-Identique à **Death Count**
-
-## Configuration
-Identique à **Death Count**
-
-## Utilisation
-Dans OBS, créer une BrowserSource avec l'url suivante:  
-
-http://sdtd/kill.html
