@@ -9,16 +9,6 @@ Il s'agit d'un petit overlay qui affiche le nombre de morts.
 * Chaque monde a son compteur de mort
 * Sauvegarde en base de donées le compteur de mort, pour le monde en cours, lorsque le joueur mort
 
-Si vous êtes mort lorsque l'overlay n'est pas lancé. La base de données ne sera pas à jour.  
-Il faudra donc **mettre à jour manuellement la base de données** en utilisant l'url.  
-
-[http://sdtd/api/setdeath.php?world=**toto**&death=**99**](http://sdtd/api/setdeath.php?world=&death=).  
-
-En prenant soin de modifier **toto** par le nom du monde et **99** par le nombre de mort.  
-
-Pour obtenir le nom du monde, une fois le monde rejoins, utliser l'url http://sdtd/api/getworld.php.  
-Pour obtenir le nombre, une fois le monde rejoins, allez dans le menu **Personnage**.  
-
 ## Installation
 Dans cette partie nous verrons les différentes étapes afin de pourvoir utiliser l'overlay.  
 
@@ -75,14 +65,16 @@ Dans OBS, créer une BrowserSource avec l'url suivante:
 http://sdtd/death.html  
 
 Si vous êtes mort lorsque l'overlay n'est pas lancé. La base de données ne sera pas à jour.  
-Il faudra donc la mettre à jour manuellement en utilisant cette url:  
+Il faudra donc **mettre à jour manuellement la base de données**.
+
+Pour cela:
+* Rejoignez le monde voulu.
+* Une fois le monde rejoins, utliser l'url http://sdtd/api/getworld.php pour obtenir le nom du monde.
+* Une fois le monde rejoins, allez dans le menu **Personnage** pour obtenir le nombre de mort.
+* Quittez le monde.
+* Utiliser l'url suivante en prenant soin de modifier **toto** par le nom du monde et **99** par le nombre de mort.
 
 [http://sdtd/api/setdeath.php?world=**toto**&death=**99**](http://sdtd/api/setdeath.php?world=&death=).  
-
-En prenant soin de modifier **toto** par le nom du monde et **99** par le nombre de mort.  
-
-Pour obtenir le nom du monde, une fois le monde rejoins, utliser l'url http://sdtd/api/getworld.php.  
-Pour obtenir le nombre, une fois le monde rejoins, allez dans le menu **Personnage**.  
 
 *****
 *****
