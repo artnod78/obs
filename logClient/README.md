@@ -60,9 +60,10 @@ GRANT ALL PRIVILEGES ON `sdtd`.* TO 'sdtdUser'@'localhost';
 Et **Exécuter**.  
 
 ## Utilisation
-Dans OBS, créer une BrowserSource avec l'url suivante:  
-
-http://sdtd/death.html  
+Dans OBS, créer une BrowserSource:  
+* URL: **http://sdtd/death.html**
+* Width: **164**
+* Height: **55**
 
 Si vous êtes mort lorsque l'overlay n'est pas lancé. La base de données ne sera pas à jour.  
 Il faudra donc **mettre à jour manuellement la base de données**.
