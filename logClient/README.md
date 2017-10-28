@@ -44,79 +44,44 @@ Valider en cliquant sur **Démarrer la création du VirtualHost**.
 Cependant, pour que ce nouveau VirtualHost soit pris en compte par Apache, vous devez lancer l'item **Redémarrage DNS**.  
 Dans la barre de tache de Windows, Clic-Droit sur l'icône Wampmanager puis *Oultils > Redémarrage DNS*.  
 Ceci ne peut, hélas, pas être fait automatiquement.  
-#### Créer la base de donnée
-Aller sur http://localhost/phpmyadmin/. Connectez vous en tant que root et sans mot de passe.  
-Aller dans l'onglet **compte Utilisateurs**, puis cliquer sur **Ajouter un compte d'utilisateur**.
-* nom d'utilisateur: **sdtd**
-* nom d'hôte: **localhost**
-* mot de passe: **sdtd**
-* Cocher la case **Créer une base portant son nom et donner à cet utilisateur tous les privilèges sur cette base.**  
+#### La base de donnée
+Aller sur http://localhost/phpmyadmin/. Connectez vous en tant que **root** et sans mot de passe.  
+Dans la barre horizontale, tout en haut, aller dans l'onglet **SQL**.  
+Copier coller le texte suivant:  
+```
+CREATE DATABASE IF NOT EXISTS `sdtd`;
+CREATE TABLE `sdtd`.`deathcount` ( `world` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , `death` INT(5) NOT NULL DEFAULT '0' , PRIMARY KEY (`world`));
+CREATE USER 'sdtdUser'@'localhost' IDENTIFIED BY 'sdtdPass';
+GRANT USAGE ON *.* TO 'sdtdUser'@'localhost' REQUIRE NONE WITH MAX_QUERIES_PER_HOUR 3600 MAX_CONNECTIONS_PER_HOUR 3600 MAX_UPDATES_PER_HOUR 3600 MAX_USER_CONNECTIONS 3600;
+GRANT ALL PRIVILEGES ON `sdtd`.* TO 'sdtdUser'@'localhost';
 
-Puis **Exécuter** pour créer l'utilisateur et sa base de données.  
-Si vous voulez utiliser des identifiants différent, il faut modifier le fichier `D:\logClient\api\api.php` ligne **137**.  
-`$mysqli = new mysqli("hostname", "user", "pass", "database");`  
-
-
-
-Aller dans l'onglet **Base de données**, puis cliquer sur **sdtd** dans la liste des base de données.  
-Ajouter une table nommée  **local** avec **2** colonnes.  
-Maintenant il va falloir définr les deux colonnes.  
-**1ère colonnes:**  
-* nom: **world**
-* type: **varchar**
-* taille: **25**
-* index: **unique**
-
-**1ème colonnes:**  
-* nom: **death**
-* type: **int**
-* taille: **5**
-
-Puis **Enregistrer** pour créer la table avec ses 2 colonnes. 
-
-
-## Utilisation
-Il est accessible via son url: [sdtd/death.html](http://sdtd/death.html)
-
-Cependant la base de donnée est encore vide.  
-Pour saisir le nombre de mort pour un monde existant:
-* Lancer le jeu, démmaré la partie et noter le nombre de fois que vous êtes mort (Menu Personnage).
-* Utiliser votre navigateur web et aller sur http://sdtd/api/getworld.php pour connaitre le nom du monde.  
-* Utiliser votre navigateur web et aller sur [http://sdtd/api/setdeath.php?world=**toto**&death=**99**](http://sdtd/api/setdeath.php?world=&death=) en prenant soin de modifier **toto** par le nom du monde et **99** par le nombre de mort.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*****
-# Troll Kill
-Nécessite un serveur Web avec PHP fonctionnel sur le même PC.  [Tuto installer un serveur web](https://notes-de-cours.com/web/blogue/49/configurer-php-et-nginx-sous-windows)  
-Lis le dernier fichier d'évenements (log) du jeu.  
-Ne fonctionne pas encore quand un joueur se fait tuer par un autre joueur.  
-
-## Installation
-Copier le contenu de **logClient** dans le repertoire de votre site web.  
-Sauf READMME.md  
-
-## Configuration
-Editer la ligne **3** du fichier log.php afin que le chemin corresponde avec celui du jeu.  
-Le chemin doit finir par un slash ( **/** )  
-
-`$dir = 'D:/SteamLibrary/steamapps/common/7 Days To Die/7DaysToDie_Data/';`  
+```
+Et **Exécuter**.  
 
 ## Utilisation
 Dans OBS, créer une BrowserSource avec l'url suivante:  
 
-`http://localhost/kill.html`
+`http://sdtd/kill.html`
+
+Cependant la base de donnée est encore vide.  
+Pour saisir le nombre de mort pour un monde existant:
+* Lancer le jeu, démmaré la partie et récuperer le nombre de fois que vous êtes mort (Menu Personnage).
+* Utiliser votre navigateur web et aller sur http://sdtd/api/getworld.php pour recuperer le nom du monde.  
+* Utiliser votre navigateur web et aller sur [http://sdtd/api/setdeath.php?world=**toto**&death=**99**](http://sdtd/api/setdeath.php?world=&death=) en prenant soin de modifier **toto** par le nom du monde et **99** par le nombre de mort.
+
+*****
+*****
+*****
+# Troll Kill
+Affiche un Popup quand un joueur mort.
+
+## Installation
+Identique à **Death Count**
+
+## Configuration
+Identique à **Death Count**
+
+## Utilisation
+Dans OBS, créer une BrowserSource avec l'url suivante:  
+
+`http://sdtd/kill.html`
