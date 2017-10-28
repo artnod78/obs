@@ -15,7 +15,7 @@ Dans cette partie nous verrons les différentes étapes afin de pourvoir utilise
 ### Le projet
 Il s'agit de ce projet, des overlays pour 7 Days to Die.
 #### Télechargement
-Télecharger le zip du projet à cette adresse: [ici](https://github.com/artnod78/obs/archive/master.zip).  
+Télecharger le zip du projet à cette adresse: https://github.com/artnod78/obs/archive/master.zip.  
 Décompresser le zip. Puis copier le dossier **logClient** là où vous voulez. par exemple dans `D:\` afin d'avoir le dossier `D:\logClient`.  
 #### Configuration
 Il va falloir modifier un fichier afin de lui renseigner le dossier du jeu.
@@ -34,11 +34,12 @@ Puis l'installer.
 #### Configuration
 Aller dans le dossier d'installation `C:\wamp64` ou `C:\wamp32` ou `C:\wamp`par défaut.  
 Puis éxecuter `wampmanager.exe`.  
-Maintenant aller sur [localhost](http://localhost) afin de vérifier que la page d'accueil de WAMP soit disponible.  
+Maintenant aller sur http://localhost afin de vérifier que la page d'accueil de WAMP soit disponible.  
 #### Ajouter un virtualhost
 Aller sur http://localhost/add_vhost.php?lang=french.  
-Dans **nom du virtualhost** saisissez `sdtd`.  
-Dans **chemin complet absolu** saisissez `D:\logClient`.  
+* nom du virtualhost: **sdtd**.  
+* chemin complet absolu: **D:\logClient**.  
+
 Valider en cliquant sur **Démarrer la création du VirtualHost**.  
 
 Cependant, pour que ce nouveau VirtualHost soit pris en compte par Apache, vous devez lancer l'item **Redémarrage DNS**.  
@@ -61,7 +62,7 @@ Et **Exécuter**.
 ## Utilisation
 Dans OBS, créer une BrowserSource avec l'url suivante:  
 
-`http://sdtd/death.html`
+http://sdtd/death.html
 
 Cependant la base de donnée est encore vide.  
 Pour saisir le nombre de mort pour un monde existant:
@@ -84,4 +85,4 @@ Identique à **Death Count**
 ## Utilisation
 Dans OBS, créer une BrowserSource avec l'url suivante:  
 
-`http://sdtd/kill.html`
+http://sdtd/kill.html
