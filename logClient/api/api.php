@@ -138,13 +138,13 @@ function sqlQuery($sqlhost, $sqluser, $sqlpass, $sqldb, $sqltable){
 	}
 }
 
-function sqlInsert($world, $death){
-	$mysqli = new mysqli($sqlHost, $sqlUser, $sqlPass, $sqlDb);
+function sqlInsert($sqlhost, $sqluser, $sqlpass, $sqldb, $sqltable, $world, $death){
+	$mysqli = new mysqli($sqlhost, $sqluser, $sqlpass, $sqldb);
 	if ($mysqli->connect_errno) {
 		return array('error' => true, 'message' => "Echec lors de la connexion à MySQL : (" . $mysqli->connect_errno . ") " . $mysqli->connect_error);
 	}
 	else{
-		$res = $mysqli->query("INSERT INTO ".$sqlTable." (world, death) VALUES ('".$world."', ".$death.") ON DUPLICATE KEY UPDATE death=".$death);
+		$res = $mysqli->query("INSERT INTO ".$sqltable." (world, death) VALUES ('".$world."', ".$death.") ON DUPLICATE KEY UPDATE death=".$death);
 		return array('error' => false);
 	}
 }

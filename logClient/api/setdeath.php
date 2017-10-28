@@ -14,7 +14,7 @@ else if( isset($_GET["world"]) AND !isset($_GET["death"])) {
 	$json = array('error' => true, 'message' => "need death param");
 }
 else{
-	$json = sqlInsert($_GET["world"], $_GET["death"]);
+	$json = sqlInsert($sqlhost, $sqluser, $sqlpass, $sqldb, $sqltable, $_GET["world"], $_GET["death"]);
 	
 }
 
