@@ -1,47 +1,49 @@
 <?php
 include 'api.php';
 
-// GET param "start" and "end"
 $start = null;
-$maxLine = 50;
+$maxLine = null;
+
 if( !isset($_GET["firstLine"]) AND !isset($_GET["lastLine"]) ) {
 	$start = 0;
+	$maxLine = 49;
 }
-if( isset($_GET["firstLine"]) AND !isset($_GET["lastLine"]) ) {
+else if( isset($_GET["firstLine"]) AND !isset($_GET["lastLine"]) ) {
 	$start = intval($_GET["firstLine"]);
-	$maxLine = $start + $maxLine;
+	$maxLine = intval($_GET["firstLine"]) + 49;
 }
-if( !isset($_GET["firstLine"]) AND isset($_GET["lastLine"]) ) {
-	$tmp = intval($_GET["lastLine"]);
-	if($tmp > $maxLine) {
-		$start = $tmp - $maxLine;
-		$maxLine = $tmp;
+else if( !isset($_GET["firstLine"]) AND isset($_GET["lastLine"]) ) {
+	if(intval($_GET["lastLine"]) > 49) {
+		$start = intval($_GET["lastLine"]) - 49;
+		$maxLine = intval($_GET["lastLine"]);
 	}
 	else {
 		$start = 0;
+		$maxline = 49;
 	}
 }
-if( isset($_GET["firstLine"]) AND isset($_GET["lastLine"]) ) {
-	if( (intval($_GET["lastLine"]) - intval($_GET["firstLine"])) < $maxLine ) {
+else if( isset($_GET["firstLine"]) AND isset($_GET["lastLine"]) ) {
+	if ( intval($_GET["lastLine"]) < intval($_GET["firstLine"]) ){
+		$start = intval($_GET["firstLine"]);
+		$maxLine = intval($_GET["firstLine"]) + 49;
+		
+	}
+	else if( (intval($_GET["lastLine"]) - intval($_GET["firstLine"])) < 49 ) {
 		$start = intval($_GET["firstLine"]);
 		$maxLine = intval($_GET["lastLine"]);
 	}
 	else {
 		$start = intval($_GET["firstLine"]);
-		$maxLine = intval($_GET["firstLine"]) + $maxLine;
+		$maxLine = intval($_GET["firstLine"]) + 49;
 		
 	}
 }
 
-
-// ##### START HERE #####
 $json = array();
-$entries = array();
+
 // get good file name
 $fileName = GetFileName($dir);
 if( !$fileName['error'] ) { // if file found
-	// add data
-	$json['firstLine'] = $start;
 	// extract file content
 	$rawLog = GetRawLog($fileName['name']);
 	if( !$rawLog['error'] ) { // 
@@ -49,17 +51,29 @@ if( !$fileName['error'] ) { // if file found
 		$parseLogs = ParseLog($rawLog['logs']);
 		$log = $parseLogs['log'];
 		// extract range from log
-		$rangeLog = array_slice($log, $start, $maxLine);	
+		if(count($log) > $maxLine){
+			$rangeLog = array_slice($log, $start, ($maxLine - $start + 1));	
+		}
+		else{
+			$rangeLog = array_slice($log, $start, (count($log) - $start + 1));	
+		}
+
 		// add data
-		$json['lastLine'] = $start + count($rangeLog);
+		$json['firstLine'] = $start;
+		
+		if($start > ($start + count($rangeLog) - 1)){
+			$json['lastLine'] = $start;
+		}
+		else{
+			$json['lastLine'] = $start + count($rangeLog) - 1;
+		}
+		$json['maxLog'] = count($log);
 		if( count($rangeLog) > 0 ) {
 			$json['entries'] = $rangeLog;
 		}
 		else {
 			$json['entries'] = array();
 		}
-		$maxLog = count($log);
-		$json['maxLog'] = $maxLog;
 	}
 	else {
 		$json['error'] = $rawLogs['error'];

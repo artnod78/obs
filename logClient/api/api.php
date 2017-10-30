@@ -82,6 +82,15 @@ function ParseLog($logs) {
 				$tmpSplit = preg_split ("/^   GPU: /", $msg);
 				$hardware['gpu'] = $tmpSplit[1];
 			}
+			elseif( preg_match("/^Setting for '/", $msg) !== 0) {
+				$tmpSplit = preg_split ("/^Setting for '/", $msg);
+				$tmpSplit = preg_split ("/'/", $tmpSplit[1]);
+				$prefName = $tmpSplit[0];
+				$tmpSplit = preg_split ("/= /", $tmpSplit[1]);
+				$tmpSplit = preg_split ("/, /", $tmpSplit[1]);
+				$prefValue = $tmpSplit[0];
+				$game[$prefName] = $prefValue;
+			}
 			
 			$log[] = array( 'date' => $date, 'time' => $time, 'uptime' => $uptime, 'msg' => $msg, 'trace' => "", 'type' => $type );
 		}

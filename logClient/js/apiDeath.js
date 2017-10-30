@@ -1,12 +1,13 @@
 var player = null;
 var world = null;
 var nbDeath = null;
-
 var nbLine = null;
 
 var firstRun = true;
 var lastNbDeath = null;
+var timeout = null;
 
+// GET DATA
 function getPlayer(){
 	var mydata = [];
 	$.ajax({
@@ -18,6 +19,17 @@ function getPlayer(){
 		}
 	});
 	return mydata;
+}
+
+function updatePlayer(){
+	var getplayer = getPlayer();
+	if(getplayer.error == false){
+		player = getplayer.player;
+		console.log("Update\t\tPlayer\t\t" + player);
+	}
+	else{
+		console.log("Update\t\tPlayer\t\tNot Found");
+	}
 }
 
 function getWorld(){
@@ -33,6 +45,17 @@ function getWorld(){
 	return mydata;
 }
 
+function updateWorld(){
+	var getworld = getWorld();
+	if(getworld.error == false){
+		world = getworld.world;
+		console.log("Update\t\tWorld\t\t" + world);
+	}
+	else{
+		console.log("Update\t\tWorld\t\tNot Found");
+	}
+}
+
 function getDeath(){
 	var mydata = [];
 	$.ajax({
@@ -44,6 +67,17 @@ function getDeath(){
 		}
 	});
 	return mydata;
+}
+
+function updateDeath(){
+	var getdeath = getDeath();
+	if(getdeath.error == false){
+		nbDeath = getdeath.death;
+		console.log("Update\t\tDeath\t\t" + nbDeath);
+	}
+	else{
+		console.log("Update\t\tDeath\t\tNot Found");
+	}
 }
 
 function getLastLine(){
@@ -72,6 +106,7 @@ function getLog(){
 	return mydata;
 }
 
+// SET DATA
 function setDeath(){
 	$.ajax({
 		url: 'api/setdeath.php?world=' + world + "&death=" + nbDeath ,
@@ -84,156 +119,116 @@ function setDeath(){
 	
 }
 
+// MAIN FUNCTION
+function updateOverlay(){
+	// on met a jour l'overlay
+	if(lastNbDeath != nbDeath){
+		console.log("Update\t\tOverlay\t\t" + nbDeath);	
+		$("#colortext").html (nbDeath);
+		lastNbDeath = nbDeath;
+	}
+}
+
 function getFirstRun(){
-	
-	// on recupere le nom du joueur
-	var getplayer = getPlayer();
-	if(getplayer.error == false){
-		player = getplayer.player;
-		console.log("First Run\tPlayer\t\t" + player);
-	}
-	else{
-		console.log("First Run\tPlayer\t\tNot Found");
-	}
-	
-	// on recupere le nom du dernier monde chargé
-	var getworld = getWorld();
-	if(getworld.error == false){
-		world = getworld.world;
-		console.log("First Run\tWorld\t\t" + world);
-		
-		// on recupere le nombre de mort
-		var getdeath = getDeath();
-		if(getdeath.error == false){
-			nbDeath = getdeath.death;
-			console.log("First Run\tDeath\t\t" + nbDeath);
+	// initialisation au premier lancement
+	if(firstRun == true){
+		// on recupere le nom du joueur
+		var getplayer = getPlayer();
+		if(getplayer.error == false){
+			player = getplayer.player;
+			console.log("First Run\tPlayer\t\t" + player);
 		}
 		else{
-			console.log("First Run\tDeath\t\tNot Found");
-			nbDeath = 0;
+			console.log("First Run\tPlayer\t\tNot Found");
 		}
-	}
-	else{
-		console.log("First Run\tWorld\t\tNot Found");
-		console.log("First Run\tDeath\t\tNot Found");
-	}
-	
-	// on recupere le numero de la dernière ligne
-	nbLine = getLastLine();
-	console.log("First Run\tLast Line\t" + nbLine);
-}
-
-function updatePlayer(){
-	var getplayer = getPlayer();
-	if(getplayer.error == false){
-		player = getplayer.player;
-		console.log("Update\t\tPlayer\t\t" + player);
-	}
-	else{
-		console.log("Update\t\tPlayer\t\tNot Found");
-	}
-}
-
-function updateWorld(){
-	var getworld = getWorld();
-	if(getworld.error == false){
-		world = getworld.world;
-		console.log("Update\t\tWorld\t\t" + world);
-	}
-	else{
-		console.log("Update\t\tWorld\t\tNot Found");
-	}
-}
-
-function updateDeath(){
-	var getdeath = getDeath();
-	if(getdeath.error == false){
-		nbDeath = getdeath.death;
-		console.log("Update\t\tDeath\t\t" + nbDeath);
-	}
-	else{
-		console.log("Update\t\tDeath\t\tNot Found");
-	}
-}
-
-
-
-function StartKillModule () {
-    var timeout = null;
-
-    var updateEvent = function() {
-		// on met a jour l'overlay
-		if(lastNbDeath != nbDeath){
-			console.log("Update\t\tOverlay\t\t" + nbDeath);	
-			if(nbDeath != null){
-				$("#nb_death").html ("Death Count: <span id=\"colortext\">" + nbDeath + " </span>");
+		
+		// on recupere le nom du dernier monde chargé
+		var getworld = getWorld();
+		if(getworld.error == false){
+			world = getworld.world;
+			console.log("First Run\tWorld\t\t" + world);
+			
+			// on recupere le nombre de mort
+			var getdeath = getDeath();
+			if(getdeath.error == false){
+				nbDeath = getdeath.death;
+				console.log("First Run\tDeath\t\t" + nbDeath);
 			}
 			else{
-				$("#nb_death").html ("Death Count: <span id=\"colortext\">0 </span>");
+				console.log("First Run\tDeath\t\tNot Found");
+				nbDeath = 0;
 			}
-			lastNbDeath = nbDeath;
+		}
+		else{
+			console.log("First Run\tWorld\t\tNot Found");
+			console.log("First Run\tDeath\t\tNot Found");
 		}
 		
-		// initialisation au premier lancement
-		if(firstRun == true){
-			getFirstRun();
-			firstRun = false;
-		}
-		
-		var logs = getLog();
-		if (logs.firstLine == logs.lastLine){
-			if(logs.maxLog < logs.lastLine){// New log file
-				console.log("Get Log\t\tSuccess\t\tNew log File");
-				firstRun = true;
-			}
-			else {// No new log
-				console.log("Get Log\t\tSuccess\t\tNo new log\t\t" + (nbLine));
-			}
-			
-		}
-		else{// New log
-			console.log("Get Log\t\tSuccess\t\tNew log\t\t\t" + (logs.maxLog));
-			
-			// on met a jour le numero de la derniere ligne lu
-			nbLine = logs.lastLine;
-			
-			// Pour chaque nouvelle ligne de log
-			for (var i = 0; i < logs.entries.length; i++) {
-				var logLine = logs.entries[i].msg;
-				
-				// si un joueur est mort
-				if(logLine.match("GMSG: Player \'" + player + "\' died")){	
-					console.log("Log\t\t\tPlayer\t\tDied");
-					// on increment le nombre de mort
-					nbDeath++;
-					// on met à jour la bdd
-					setDeath();
-				}
-				
-				// si on démarre de monde
-				if(logLine.match("createWorld: ")){
-					// on met a jour le nom du joueur
-					updatePlayer();
-					// on met a jour le nom du monde
-					updateWorld();
-					// on met a jour le nombre de mort
-					updateDeath();
-				}
-				
-				// si on quitte le monde
-				if(logLine.match("World.Unload")){
-					console.log("Unload\t\tWorld\t\t" + world);
-					// reset world
-					world = null;
-					// reset nbDeath
-					nbDeath = null;
-					
-				}
-			}	
-		}		
-		timeout = window.setTimeout(updateEvent, 2000);
-		
-	};
-	updateEvent ();
+		// on recupere le numero de la dernière ligne
+		nbLine = getLastLine();
+		console.log("First Run\tLast Line\t" + nbLine);
+		firstRun = false;
+	}
 }
-StartKillModule();
+
+function scanLog(){
+	var logs = getLog();
+	if (logs.firstLine == logs.lastLine){
+		if(logs.maxLog < logs.lastLine){// New log file
+			console.log("Get Log\t\tSuccess\t\tNew log File");
+			firstRun = true;
+		}
+		else {// No new log
+			console.log("Get Log\t\tSuccess\t\tNo new log\t\t" + (nbLine));
+		}
+		
+	}
+	else{// New log
+		console.log("Get Log\t\tSuccess\t\tNew log\t\t\t" + (logs.maxLog));
+		
+		// on met a jour le numero de la derniere ligne lu
+		nbLine = logs.lastLine;
+		
+		// Pour chaque nouvelle ligne de log
+		for (var i = 0; i < logs.entries.length; i++) {
+			var logLine = logs.entries[i].msg;
+			
+			// si un joueur est mort
+			if(logLine.match("GMSG: Player \'" + player + "\' died")){	
+				console.log("Log\t\t\tPlayer\t\tDied");
+				// on increment le nombre de mort
+				nbDeath++;
+				// on met à jour la bdd
+				setDeath();
+			}
+			
+			// si on démarre de monde
+			if(logLine.match("createWorld: ")){
+				// on met a jour le nom du joueur
+				updatePlayer();
+				// on met a jour le nom du monde
+				updateWorld();
+				// on met a jour le nombre de mort
+				updateDeath();
+			}
+			
+			// si on quitte le monde
+			if(logLine.match("World.Unload")){
+				console.log("Unload\t\tWorld\t\t" + world);
+				// reset world
+				world = null;
+				// reset nbDeath
+				nbDeath = null;
+				
+			}
+		}
+	}
+}
+
+var updateEvent = function() {
+	updateOverlay();
+	getFirstRun();
+	scanLog();
+	timeout = window.setTimeout(updateEvent, 2000);
+};
+updateEvent();

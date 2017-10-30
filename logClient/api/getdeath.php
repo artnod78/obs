@@ -1,8 +1,18 @@
 <?php
 include 'api.php';
 
+$json = array();
 
-if( !isset($_GET["world"])) {
+if( isset($_GET["all"])) {
+	$query = sqlQuery($sqlhost, $sqluser, $sqlpass, $sqldb, $sqltable);
+	if( !$query['error'] ) {
+		$json = array('entries' => $query['entries'], 'error' => $query['error']);
+	}
+	else {
+		$json = array('error' => $query['error'], 'message' => $query['message']);
+	}
+}
+else if( !isset($_GET["world"])) {
 	$json = array('error' => true, 'message' => "need world param");
 }
 else{
@@ -32,8 +42,6 @@ else{
 		}
 	}
 }
-
-
 
 header('Content-Type: application/json');
 echo json_encode($json);

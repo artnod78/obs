@@ -1,12 +1,8 @@
 <?php
 include 'api.php';
 
-
-
-
-// ##### START HERE #####
 $json = array();
-$entries = array();
+
 // get good file name
 $fileName = GetFileName($dir);
 if( !$fileName['error'] ) { // if file found

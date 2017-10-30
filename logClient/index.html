@@ -1,11 +1,92 @@
 <!DOCTYPE html>
-<html>
+<html lang ="en">
 	<head>
-		<title>Home</title>
+		<title>7dtd Overlays</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> 
+		 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
+		 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
 	</head>
 	<body>
-		<h1>Overlays for OBS</h1>
-		<a href="death.html">death count</a><br>
-		<a href="kill.html">troll kill</a>
+	
+		<div class="container-fluid">
+		
+			<div class="row">
+				<div class="col-md-6">
+					<h1>7dtd Overlays</h1>
+					<p>
+						Death count: <a href="./death.html">http://sdtd/death.html</a><br>
+						Info world: <a href="./info.html">http://sdtd/info.html</a><br>
+						Troll Kill: <a href="./kill.html">http://sdtd/kill.html</a>
+					</p>
+					
+					<h2>Log File API</h2>
+					<p>
+						Get player name: <a href="./api/getplayer.php">http://sdtd/api/getplayer.php</a><br>
+						Get world name: <a href="./api/getworld.php">http://sdtd/api/getworld.php</a><br>
+						Get game prefs: <a href="./api/getgamepref.php">http://sdtd/api/getgamepref.php</a>
+					</p>
+				</div>
+			</div>
+					
+			<div class="row">
+				<div class="col-md-4">
+					<p>
+						Get log from specific line to specific line:<br>(max 50 lines per request)
+						<form action="./api/getlog.php" method="get">
+							<div class="form-group">
+								<label for="start">Start line:</label>
+								<input type="number" class="form-control" id="start" placeholder="change me" name="firstLine">
+							</div>
+							<div class="form-group">
+								<label for="end">End line:</label>
+								<input type="number" class="form-control" id="start" placeholder="change me" name="lastLine">
+							</div>
+							<button type="submit" class="btn btn-default">Submit</button>
+						</form>
+					</p>
+				</div>
+			</div>	
+			
+			<div class="row">
+				<div class="col-md-6">					
+					<h2>Database API</h2>
+					<p>Get death count for all worlds: <a href="./api/getdeath.php?all">http://sdtd/api/getdeath.php?all</a></p>
+				</div>
+			</div>	
+					
+			
+			<div class="row">
+				<div class="col-md-4">
+					<p>Get death count for a specific world:
+					<form action="./api/getdeath.php" method="get">
+						<div class="form-group">
+							<label for="world">World Name:</label>
+							<input type="text" class="form-control" id="world" placeholder="change me" name="world">
+						</div>
+						<button type="submit" class="btn btn-default">Submit</button>
+					</form></p>
+				</div>
+			</div>	
+			<br>
+			<div class="row">
+				<div class="col-md-4">
+					<p>Update death count for a specific world:
+					<form action="./api/setdeath.php" method="get">
+						<div class="form-group">
+							<label for="world">World Name:</label>
+							<input type="text" class="form-control" id="world" placeholder="change me" name="world">
+						</div>
+						<div class="form-group">
+							<label for="death">Death Count:</label>
+							<input type="number" class="form-control" id="death" placeholder="0" name="death">
+						</div>
+						<button type="submit" class="btn btn-default">Submit</button>
+					</form></p>
+				</div>
+			</div>
+			
+		</div>
+
 	</body>
 </html>
