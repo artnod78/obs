@@ -184,10 +184,7 @@ function scanLog(){
 		
 	}
 	else{// New log
-		console.log("Get Log\t\tSuccess\t\tNew log\t\t\t" + (logs.maxLog));
-		
-		// on met a jour le numero de la derniere ligne lu
-		nbLine = logs.lastLine;
+		console.log("Get Log\t\tSuccess\t\tNew log\t\t\t" + (logs.firstLine));
 		
 		// Pour chaque nouvelle ligne de log
 		for (var i = 0; i < logs.entries.length; i++) {
@@ -221,6 +218,9 @@ function scanLog(){
 				nbDeath = 0;
 			}
 		}
+		
+		// on met a jour le numero de la prochaine ligne à lire
+		nbLine = logs.lastLine +1;
 	}
 }
 
