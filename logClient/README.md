@@ -46,4 +46,4 @@ Pour cela:
 1. Allez dans le menu **Personnage** pour obtenir le nombre de mort.
 1. Aller sur http://sdtd/api/getworld.php pour obtenir le nom du monde.
 1. Quittez la partie. **IMPORTANT**
-1. Aller http://sdtd/ et remplisser le formulaire **Update death count for a specific world** avec le nom du monde et le nombre de mort fraichement récupéré.
+1. Aller sur http://sdtd/ et remplisser le formulaire **Update death count for a specific world** avec le nom du monde et le nombre de mort fraichement récupéré.
