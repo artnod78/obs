@@ -1,6 +1,6 @@
 var player = null;
 var world = null;
-var nbDeath = null;
+var nbDeath = 0;
 var nbLine = null;
 
 var firstRun = true;
@@ -162,8 +162,8 @@ function getFirstRun(){
 		else{
 			console.log("First Run\tWorld\t\tNot Found");
 			console.log("First Run\tDeath\t\tNot Found");
+			nbDeath = 0;
 		}
-		
 		// on recupere le numero de la dernière ligne
 		nbLine = getLastLine();
 		console.log("First Run\tLast Line\t" + nbLine);
@@ -219,7 +219,6 @@ function scanLog(){
 				world = null;
 				// reset nbDeath
 				nbDeath = 0;
-				
 			}
 		}
 	}
