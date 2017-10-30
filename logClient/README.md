@@ -29,10 +29,10 @@ Ensemble d'overlays interagissant avec les fichies log du jeu.
    * login: **root**. Pas de mot de passe.
    * Cliquer sur l'onglet **SQL** (barre en haut).  
    * Copier / coller le texte suivant et **Exécuter**:  
-*```CREATE DATABASE IF NOT EXISTS `sdtd`;  
-CREATE TABLE `sdtd`.`deathcount` ( `world` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , `death` INT(5) NOT NULL DEFAULT '0' , PRIMARY KEY (`world`));  
-CREATE USER 'sdtdUser'@'localhost' IDENTIFIED BY 'sdtdPass';  
-GRANT USAGE ON *.* TO 'sdtdUser'@'localhost' REQUIRE NONE WITH MAX_QUERIES_PER_HOUR 3600 MAX_CONNECTIONS_PER_HOUR 3600 MAX_UPDATES_PER_HOUR 3600 MAX_USER_CONNECTIONS 3600;  
+*```CREATE DATABASE IF NOT EXISTS `sdtd`;
+CREATE TABLE `sdtd`.`deathcount` ( `world` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , `death` INT(5) NOT NULL DEFAULT '0' , PRIMARY KEY (`world`));
+CREATE USER 'sdtdUser'@'localhost' IDENTIFIED BY 'sdtdPass';
+GRANT USAGE ON *.* TO 'sdtdUser'@'localhost' REQUIRE NONE WITH MAX_QUERIES_PER_HOUR 3600 MAX_CONNECTIONS_PER_HOUR 3600 MAX_UPDATES_PER_HOUR 3600 MAX_USER_CONNECTIONS 3600;
 GRANT ALL PRIVILEGES ON `sdtd`.* TO 'sdtdUser'@'localhost';```*
 
 ## Utilisation
