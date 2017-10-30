@@ -36,7 +36,7 @@ GRANT USAGE ON *.* TO 'sdtdUser'@'localhost' REQUIRE NONE WITH MAX_QUERIES_PER_H
 GRANT ALL PRIVILEGES ON `sdtd`.* TO 'sdtdUser'@'localhost';```*
 
 ## Utilisation
-La liste des overlay avec leur url son sur http://sdtd/.  
+La liste des overlays avec leur url son disponible sur http://sdtd/.  
 Sur cette page contient aussi les differents url de l'API.  
 
 Si vous êtes mort lorsque l'overlay n'est pas lancé. La base de données ne sera pas à jour.  
