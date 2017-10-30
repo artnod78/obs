@@ -4,6 +4,7 @@ var nbdiv = 0;
 
 var firstRun = true;
 var timeout = null;
+
 // GET DATA
 function getLog(){
 	var mydata = [];
@@ -13,6 +14,19 @@ function getLog(){
 		dataType: 'json',
 		success: function (jsonData) {
 			mydata = jsonData;
+		}
+	});
+	return mydata;
+}
+
+function getLastLine(){
+	var mydata = [];
+	$.ajax({
+		url: 'api/getlog.php',
+		async: false,
+		dataType: 'json',
+		success: function (jsonData) {
+			mydata = jsonData.maxLog;
 		}
 	});
 	return mydata;
@@ -33,18 +47,20 @@ function updateOverlay(){
 }
 
 // MAIN FUNCTION
-function getLastLine(){
-	var mydata = [];
-	$.ajax({
-		url: 'api/getlog.php',
-		async: false,
-		dataType: 'json',
-		success: function (jsonData) {
-			mydata = jsonData.maxLog;
-		}
-	});
-	return mydata;
+function updateOverlay(){
+	// on ajoute du contenu
+	var body = $("body");
+	$(".div"+(nbdiv-1)).remove();
+	$("body").append($("<div></div>").attr("id", "killContainer").addClass("div" + nbdiv));
+	$("#killContainer").append($("<div></div>").attr("id", "killHeader"));
+	$("#killHeader").append($("<span>Alerte Troll</span>").attr("id", "spanHeader"));
+	$("#killContainer").append($("<div></div>").attr("id", "killContent"));
+	$("#killContent").append($("<image id='sdtdLogo' src='img/Brokenbone_icon.png'>"));
+	$("#killContent").append($("<div></div>").attr("id", "killContentText"));
+	$("#killContentText").append($("<span>" +  player + " est mort<br>comme un fragile !!!" + "</span>"));
+	nbdiv = nbdiv + 1;
 }
+
 function getFirstRun(){
 	// initialisation au premier lancement
 	if(firstRun == true){		
@@ -87,12 +103,10 @@ function scanLog(){
 	nbLine = logs.maxLog;
 }
 
-
-
+// MAIN
 var updateEvent = function() {
 	getFirstRun();
 	scanLog();
 	timeout = window.setTimeout(updateEvent, 2000);
 };
 updateEvent();
-

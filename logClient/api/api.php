@@ -36,6 +36,7 @@ function GetRawLog($filename) {
 }
 
 function ParseLog($logs) {
+	$stat = array();
 	$game = array();
 	$hardware = array();
 	$log = array();
@@ -114,14 +115,14 @@ function ParseLog($logs) {
 				$tmpSplit = preg_split ("/ = /", $tmpSplit[1]);
 				$param = $tmpSplit[0];
 				$value = preg_split ("#\r\n$#", $tmpSplit[1]);
-				$game[$param] = $value[0];
+				$stat[$param] = $value[0];
 			}
 			
 			$tmp = preg_split ("#\r\n$#", $line);
 			$other[] = $tmp[0];
 		}
 	}
-	return array('game' => $game, 'hardware' => $hardware, 'log' => $log, 'other' => $other, 'system' => $system);
+	return array('game' => $game, 'gamestat' => $stat, 'hardware' => $hardware, 'log' => $log, 'other' => $other, 'system' => $system);
 }
 
 

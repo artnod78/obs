@@ -123,7 +123,7 @@ function setDeath(){
 function updateOverlay(){
 	// on met a jour l'overlay
 	if(lastNbDeath != nbDeath){
-		console.log("Update\t\tOverlay\t\t" + nbDeath);	
+		console.log("Update\t\tOverlay\t\t" + nbDeath);
 		$("#colortext").html (nbDeath);
 		lastNbDeath = nbDeath;
 	}
@@ -218,7 +218,7 @@ function scanLog(){
 				// reset world
 				world = null;
 				// reset nbDeath
-				nbDeath = null;
+				nbDeath = 0;
 				
 			}
 		}
