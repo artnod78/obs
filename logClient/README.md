@@ -8,7 +8,7 @@ Ensemble d'overlays interagissant avec les fichies log du jeu.
   * Air drop
   * Air drop maker
   * Loot respawn
-* **Troll Kill**: Affiche une fenêtre pendant 10 sec, lorsqu'un joueur mort.  
+* **Troll Kill**: Affiche une fenêtre pendant 10 sec, lorsque le joueur mort.  
 
 ## Installation
 1. Télecharger les overlays à cette adresse: https://github.com/artnod78/obs/archive/master.zip.  
