@@ -1,14 +1,14 @@
 # Overlays pour 7 Days To Die
 Ensemble d'overlays interagissant avec les fichies log du jeu.
-* **Death Count**: Affiche le nombre de mort de la partie en cours.
-* **Info World**: Affiche les info de la partie en cours.
+* **Death Count**: Affiche le nombre de mort de la partie en cours. (Dimension: 160x45)  
+* **Info World**: Affiche les info de la partie en cours. (Dimension: 1094x45)  
   * Difficulty
   * Zombies run
   * Blood moon
   * Air drop
   * Air drop maker
   * Loot respawn
-* **Troll Kill**: Affiche une fenêtre pendant 10 sec, lorsque le joueur mort.  
+* **Troll Kill**: Affiche une fenêtre pendant 10 sec, lorsque le joueur mort. (Dimension: 420x600)  
 
 ## Installation
 1. Télecharger les overlays à cette adresse: https://github.com/artnod78/obs/archive/master.zip.  
